@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12 mb-3 mb-lg-5">
+            <div class="card">
+                <div class="d-flex card-header justify-content-between">
+                    <h5 class="me-3 mb-0">Professors</h5>
+                    <!-- <a href="#!.html">View All</a> -->
+                </div>
+                <div class="card-body" *ngFor="let prof of professors" >
+                    <ul  class="list-group list-group-flush" >
+                        <li class="list-group-item pt-0" >
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 me-3">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="avatar rounded-circle" />
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0"> Name: {{prof.name}}</h6>
+                                    <p class="mb-0 text-muted"> Email: {{prof.email}}</p>
+                                </div>
+                                <div class="flex-shrink-0 text-end">
+                                    <span>
+                                       subject: {{prof.subject}}
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

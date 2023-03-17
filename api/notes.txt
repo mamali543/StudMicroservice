@@ -1,0 +1,32 @@
+Spring is a java framework built to create an enterprise real application
+*Spring framework makes it easy to build application but there is a lot of configurations that we have to do
+and with that spring developors taught of creating something easy so all the developors can really concentrate on that actual work
+(only the convention not the configuration part) and that was Spring Boot it's just the extension of Spring framework and it use it
+internally and it uses keys benifits for use for java developers(it offers the auto configuration)
+
+*Apache tomCat is a free and open-source implementation of Jakarta servlet, and websocket tecknologies
+and it provides a pure "Java Http  web server envirenment in which java code also can run , thus is a java web applicatyon server 
+
+*there is a server in the cloud and within it there is tomcat is an embeded servlet container and inside we also have the springboot application
+so each spring boot app includes an embeded tomcat webserver
+
+*@RestController and @GetMapping these are annotations which are part of the SPRING WEB MVC.
+-The Spring Web MVC is an easy way of implementing MVC architechture in our web App.
+-Spring MVC  abstracts away a lot of messy details u would have to understand and manage yourself if u want to write a servlet manually.
+-A servlet is a process wich handles http requests.
+-So Spring Web MVC allows us to create restful services very easy, and within it there's a lot of annotations that helps us to do so.
+
+*records are classes that allows us to achive immutabilities
+
+*Jakson is Json for Java (JavaScript Object Notation)
+
+*the POSTGRESSQL JDBC DRIVER allows java programs to connect to a POSTGRESSQL database using standard database independent java code.
+-and while we are using spring data JPA we are depending on the POSTGRESSQL JBDC DRIVER
+
+*spring data JPA it allows us to map java classes to database tables to directly interact with our databse without having to write sql code.
+
+*Postman is a client that allows us to test our APIs
+
+*Spring Data JPA is an amazing framework that abstracts all the complexity needed from u to interact with the database
+
+*hibernate is an implementation of JPA interface

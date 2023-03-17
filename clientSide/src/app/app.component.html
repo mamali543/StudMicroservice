@@ -1,0 +1,209 @@
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" style="color:white;">Student Manager</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarColor02">
+     <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+           <a class="nav-link" (click)="onOpenModal(null, 'add')" >Add Student <span class="sr-only">(current)</span></a>
+        </li>
+     </ul>
+     <form class="form-inline my-2 my-lg-0">
+        <input type="search" ngModel (ngModelChange)="searchStudents(key.value)" #key="ngModel" 
+         name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search students..." required>
+     </form>
+  </div>
+</nav>
+<div class="container" id="main-container">
+    <div class="row">
+        <div *ngFor="let student of students" class="col-md-6 col-xl-3">
+            <div class="card m-b-30">
+                <div class="card-body row">
+                    <div class="col-6">
+                        <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="img-fluid rounded-circle w-60"></a>
+                    </div>
+                    <div class="col-6 card-title align-self-center mb-0">
+                        <h5>{{student?.name}}</h5>
+                        <p class="m-0">{{student?.groupe}}</p>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="fa fa-envelope float-right"></i>Email : {{student?.email}} </li>
+                    <li class="list-group-item"><i class="fa fa-phone float-right"></i>Telephone : {{student?.telephone}}</li>
+                    <li class="list-group-item">{{student?.name}}'s <a href="details">Professors</a></li>
+
+                </ul>
+                <div class="card-body">
+                    <div class="float-right btn-group btn-group-sm">
+                        <a (click)="onOpenModal(student, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                        <a (click)="onOpenModal(student, 'delete')" class="btn btn-secondary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a>
+                    </div>
+                    <ul class="social-links list-inline mb-0">
+                        <a class="btn btn-primary" (click)="onOpenModal(student, 'assign')" >Assign A ProfId</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStudentModalLabel">Add Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #addForm="ngForm" (ngSubmit)="onAddStudent(addForm)">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" ngModel name="name" class="form-control" id="name" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" ngModel name="email" class="form-control" id="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="groupe">Groupe</label>
+                        <input type="text" ngModel name="groupe" class="form-control" id="groupe" placeholder="groupe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telephone">Telephone</label>
+                        <input type="text" ngModel name="telephone" class="form-control" id="telephone" placeholder="Telephone" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="add-student-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStudentModalLabel">Assign ProfId</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form #assignForm="ngForm" >
+                    <div class="form-group">
+                        <label for="ProfId">Assign ProfId</label>
+                        <input type="number" min="1" max="200" ngModel name="ProfId" class="form-control" id="ProfId" placeholder="Ex: 14" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="add-student-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" (click)="onAssignStudent(assignStudent!.id)" class="btn btn-primary" >Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<div class="modal fade" id="updateStudentModal" tabindex="-1" role="dialog" aria-labelledby="studentEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateStudentModalLabel">Edit Student  {{editStudent?.name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #editForm="ngForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" ngModel="{{editStudent?.name}}" name="name" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Name">
+                    </div>
+                    <input type="hidden" ngModel="{{editStudent?.id}}" name="id" class="form-control" id="id" placeholder="Email">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" ngModel="{{editStudent?.email}}" name="email" class="form-control" id="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Groupe</label>
+                        <input type="text" ngModel="{{editStudent?.groupe}}" name="groupe" class="form-control" id="groupe" placeholder="Groupe">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" ngModel="{{editStudent?.telephone}}" name="telephone" class="form-control" id="telephone" name="telephone" placeholder="Telephone">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                        <button (click)="onUpdateStudent(editForm.value)" data-dismiss="modal" class="btn btn-primary" >Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="assignStudentModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="deleteModelLabel">Assign Student</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <form #assignForm="ngForm" >
+                <div class="form-group">
+                    <label for="ProfId">ProfId</label>
+                    <input type="number" min="1" max="200" ngModel name="ProfId" class="form-control" id="ProfId" placeholder="Ex: 14" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="add-student-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button (click)="onAssignStudent(assignStudent!.id, assignForm)"  class="btn btn-danger" data-dismiss="modal">Save</button>
+                </div>
+            </form>
+          </div>
+       </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteStudentModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="deleteModelLabel">Delete Student</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <p>Are you sure you want to delete student {{deleteStudent?.name}}?</p>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button (click)="onDeleteStudent(deleteStudent!.id)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+             </div>
+          </div>
+       </div>
+    </div>
+</div>
+</div>
+
+<div *ngIf="students?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">NO STUDENTS!</h4>
+      <p>No Students were found.</p>
+    </div>
+</div> -->
+
+
+
+<router-outlet></router-outlet>
+
+
+

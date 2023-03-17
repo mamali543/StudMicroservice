@@ -1,0 +1,17 @@
+*Angular is a framework for building client applications
+-Angular itself is written by typescript and it:
+    -Gives our applications a clean structure
+    -Includes a lot of re-usable code
+    -Makes the app more testable
+
+*Every app has at least one module and one component
+
+*main.ts file is the starting point for our app
+
+*HMR: HOT Module Reloading(HMR), whenever one of the source file is modified
+webpack automatically refresh the browser.
+
+*TypeScript is a supeset of javascript, with typescript we can catch errors in compile time
+instead of runtime
+
+*TypeScript always get transpiled to javascript so it can be understandable by the browser
