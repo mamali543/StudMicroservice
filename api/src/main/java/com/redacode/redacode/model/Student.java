@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 @Entity @Data @AllArgsConstructor @NoArgsConstructor
+@Table
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +21,5 @@ public class Student {
     private String cin;
     private String groupe;
     @ElementCollection
-    private List<Long> professors = new ArrayList<Long>();
-
+    private List<Long> professors = new ArrayList<>();
 }

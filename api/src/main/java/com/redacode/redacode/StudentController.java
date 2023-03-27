@@ -1,10 +1,7 @@
 package com.redacode.redacode;
 
 import com.redacode.redacode.model.Student;
-import com.redacode.redacode.repo.StudentRepo;
 import com.redacode.redacode.service.StudentService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,75 +10,45 @@ import java.util.List;
 @RequestMapping("/studentService")
 @CrossOrigin("*")
 public class StudentController {
-
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
-    private final StudentService studentService;
-    private final StudentRepo studentRepo;
+    public static final String ANSI_RESET = "\u001B[0m";
 
-    public StudentController(StudentService studentService, StudentRepo studentRepo) {
+    private final StudentService studentService;
+
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
-        this.studentRepo = studentRepo;
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Student>> getAllStudents(){
-        System.out.println("yooo cavaaa");
-        List<Student> students = studentService.findAllStudents();
-        return new ResponseEntity<>(students, HttpStatus.OK);
-    }
-
-    @PostMapping("/addStudents")
-    public List<Student> addStudents(@RequestBody List<Student> students){
-        return studentService.addAll(students);
+    public List<Student> getAllStudents(){
+        return studentService.findAllStudents();
     }
     @GetMapping("/find/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable("id") Long id){
-        Student student = studentService.findStudent(id);
-        return new ResponseEntity<>(student, HttpStatus.OK);
+    public Student getStudent(@PathVariable("id") Long id){
+        return studentService.findStudent(id);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Student> addStudent(@RequestBody Student student){
-        Student newStudent = studentService.addStudent(student);
-
-
-        return new ResponseEntity<>(newStudent, HttpStatus.CREATED);
+    public void addStudent(@RequestBody Student student) {
+            studentService.addStudent(student);
     }
 
     @GetMapping("/get/list")
-    public ResponseEntity<List<Student>> getStudentList(@RequestParam List<Long> studentIds){
-        System.out.println("yoooooooo");
-        List<Student> students = studentService.getIdsList(studentIds);
-        return new ResponseEntity<>(students, HttpStatus.OK);
+    public List<Student> getStudentList(@RequestParam List<Long> studentIds){
+        return studentService.getIdsList(studentIds);
     }
     @PutMapping("/update")
-    public ResponseEntity<Student> updateStudent(@RequestBody Student student){
-        Student newStudent = studentService.updateStudent(student);
-        return new ResponseEntity<>(newStudent, HttpStatus.OK);
+    public Student updateStudent(@RequestBody Student student){
+        return studentService.updateStudent(student);
     }
-
     @PutMapping("/assign/{studentId}")
-    public ResponseEntity<?> assignProf(@PathVariable("studentId") long studentId,@RequestBody Long profId)
+    public Student assignProf(@PathVariable("studentId") long studentId,@RequestBody Long profId)
     {
-        Student newStudent = studentService.assignProfessor(studentId, profId);
-        System.out.println(profId);
-        System.out.println(ANSI_GREEN+ newStudent.getProfessors() + ANSI_RESET);
-        return new ResponseEntity<>(newStudent, HttpStatus.OK);
+       return studentService.assignProfessor(studentId, profId);
     }
-
-
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteStudent(@PathVariable("id") Long id){
+    public void deleteStudent(@PathVariable("id") Long id){
         studentService.deleteStudent(id);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

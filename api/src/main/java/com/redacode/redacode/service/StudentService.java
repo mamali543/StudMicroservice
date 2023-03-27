@@ -1,27 +1,27 @@
 package com.redacode.redacode.service;
 
+import com.redacode.redacode.exception.BadRequestException;
 import com.redacode.redacode.exception.userNotFoundException;
 import com.redacode.redacode.model.Student;
 import com.redacode.redacode.repo.StudentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 @Service
 public class StudentService {
+    public final String ANSI_BLUE = "\u001B[34m";
+    public final String ANSI_RESET = "\u001B[0m";
+    static final  String ERROR_PREFIX = "Error: ";
+    // using format specifiers instead of concatenation
+    static final String FORMAT_SPECIFIER_PREFIX = "{}{}{}{}";
 
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
 
-    //we injected this repository in this class so we can work with it in this class
     private final StudentRepo studentRepo;
 
     @Autowired
@@ -31,7 +31,16 @@ public class StudentService {
 
     public Student addStudent(Student student)
     {
-        return studentRepo.save(student);
+        try {
+            boolean existEmail = studentRepo.existsByEmail(student.getEmail());
+            if (existEmail) {
+                throw new BadRequestException("Email " + student.getEmail() + " Already taken");
+            }
+             return studentRepo.save(student);
+        }catch (BadRequestException x){
+            LOGGER.info(FORMAT_SPECIFIER_PREFIX, ANSI_BLUE , ERROR_PREFIX ,x.getMessage() , ANSI_RESET);
+            return null;
+        }
     }
 
     public List<Student> findAllStudents(){
@@ -42,42 +51,50 @@ public class StudentService {
         return studentRepo.save(student);
     }
 
-    public void deleteStudent(long id)
+    public void deleteStudent(long studentId)
     {
-        studentRepo.deleteById(id);
+        try {
+            if (!studentRepo.existsById(studentId))
+            {
+                throw new userNotFoundException("User by id: "+ studentId+ " doesn't exist !");
+            }
+            studentRepo.deleteById(studentId);
+        }
+        catch(userNotFoundException x)
+        {
+            LOGGER.info(FORMAT_SPECIFIER_PREFIX, ANSI_BLUE , ERROR_PREFIX ,x.getMessage() , ANSI_RESET);
+            throw x;
+        }
     }
 
     public Student findStudent(long id){
-        return studentRepo.findStudentById(id)
-                .orElseThrow(()-> new userNotFoundException("User by id:  " + id +" was not found!"));
+        try {
+            return studentRepo.findById(id)
+                    .orElseThrow(() -> new userNotFoundException("User by id:  " + id + " was not found!"));
+        } catch(userNotFoundException x)
+        {
+            LOGGER.info(FORMAT_SPECIFIER_PREFIX, ANSI_BLUE , ERROR_PREFIX ,x.getMessage() , ANSI_RESET);
+            return null;
+        }
     }
 
     public List<Student> getIdsList(List<Long> studentIds) {
-        List<Student> students = new ArrayList<Student>();
-        for(Long id : studentIds){
-            Student p = studentRepo.findById(id).orElse(new Student());
-            if(p.getId()==null) continue;
-            students.add(p);
-        }
-        return students;
+        return studentRepo.findAll(Specification.where(in("id", studentIds)));
+    }
+
+    public static Specification<Student> in(String field, List<?> values) {
+        return (root, query, cb) -> root.get(field).in(values);
     }
 
     public Student assignProfessor(Long studentId, Long profId) {
-        Student student = studentRepo.findStudentById(studentId).
+        Student student = studentRepo.findById(studentId).
                 orElseThrow(()-> new userNotFoundException("User by id:  " + studentId +" was not found!"));
-        System.out.println(ANSI_RED+ student.getProfessors() + ANSI_RESET);
         List<Long> s = student.getProfessors();
         s.add(profId);
         student.setProfessors(s);
         Set<Long> set = new HashSet<>(student.getProfessors()); // Convert list to Set to remove duplicates
         student.getProfessors().clear();
         student.getProfessors().addAll(set); // Add the distinct values back to the list
-        System.out.println(ANSI_BLUE+ student.getProfessors() + ANSI_RESET);
         return studentRepo.save(student);
-
-    }
-
-    public List<Student> addAll(List<Student> students){
-        return studentRepo.saveAll(students);
     }
 }
