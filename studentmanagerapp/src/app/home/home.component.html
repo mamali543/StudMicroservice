@@ -1,0 +1,137 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" style="color:white;">Student Manager</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+             <a class="nav-link" routerLink="/add" >Add Student <span class="sr-only">(current)</span></a>
+          </li>
+       </ul>
+       <form class="form-inline my-2 my-lg-0">
+          <input type="search" ngModel (ngModelChange)="searchStudents(key.value)" #key="ngModel" 
+           name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search students..." required>
+       </form>
+    </div>
+  </nav>
+  <div class="container" id="main-container">
+      <div class="row">
+          <div *ngFor="let student of students" class="col-md-6 col-xl-3">
+              <div class="card m-b-30">
+                  <div class="card-body row">
+                      <div class="col-6">
+                          <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="img-fluid rounded-circle w-60"></a>
+                      </div>
+                      <div class="col-6 card-title align-self-center mb-0">
+                          <h5>{{student?.name}}</h5>
+                          <p class="m-0">{{student?.groupe}}</p>
+                      </div>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><i class="fa fa-envelope float-right"></i>Email : {{student?.email}} </li>
+                      <li class="list-group-item"><i class="fa fa-phone float-right"></i>Telephone : {{student?.telephone}}</li>
+                      <li class="list-group-item">{{student?.name}}'s <a class="white" routerLink="{{'/professor/'+ student.id}}">Professors</a></li>
+  
+                      <!-- <a href="/proffessors"> see proffessors</a> -->
+                  </ul>
+                  <div class="card-body">
+                      <div class="float-right btn-group btn-group-sm">
+                          <a (click)="onOpenModal(student, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit" ><i class="fa fa-pencil"></i> </a>
+                          <a routerLink="{{'/delete/'+ student.id}}" class="btn btn-secondary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a>
+                      </div>
+                      <ul class="social-links list-inline mb-0">
+                          <!-- <a class="btn btn-primary" href="#" role="button">Assign</a> -->
+                           <!-- <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook-f"></i></a></li> -->
+                          <a class="btn btn-primary"  routerLink="{{'/assign/'+ student.id}}" >Assign A Prof</a>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  <!-- Edit Modal -->
+  <div class="modal fade" id="updateStudentModal" tabindex="-1" role="dialog" aria-labelledby="studentEditModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="updateStudentModalLabel">Edit Student  {{editStudent?.name}}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <form #editForm="ngForm">
+                      <div class="form-group">
+                          <label for="name">Name</label>
+                          <input type="text" ngModel="{{editStudent?.name}}" name="name" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Name">
+                      </div>
+                      <input type="hidden" ngModel="{{editStudent?.id}}" name="id" class="form-control" id="id" placeholder="Email">
+                      <div class="form-group">
+                          <label for="email">Email Address</label>
+                          <input type="email" ngModel="{{editStudent?.email}}" name="email" class="form-control" id="email" placeholder="Email">
+                      </div>
+                      <div class="form-group">
+                          <label for="phone">Groupe</label>
+                          <input type="text" ngModel="{{editStudent?.groupe}}" name="groupe" class="form-control" id="groupe" placeholder="Groupe">
+                      </div>
+                      <div class="form-group">
+                          <label for="phone">Phone</label>
+                          <input type="text" ngModel="{{editStudent?.telephone}}" name="telephone" class="form-control" id="telephone" name="telephone" placeholder="Telephone">
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                          <button (click)="onUpdateStudent(editForm.value)" data-dismiss="modal" class="btn btn-primary" >Save changes</button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  </div>
+  
+  <div *ngIf="students?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+      <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">NO STUDENTS!</h4>
+        <p>No Students were found.</p>
+      </div>
+  </div>
+  
+  <router-outlet></router-outlet>
+  
+  <!-- <div class="container">
+      <div class="row">
+          <div class="col-xl-12 mb-3 mb-lg-5">
+              <div class="card">
+                  <div class="d-flex card-header justify-content-between">
+                      <h5 class="me-3 mb-0">Top Customers</h5>
+                      <a href="#!.html">View All</a>
+                  </div>
+                  <div class="card-body">
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item pt-0">
+                              <div class="d-flex align-items-center">
+                                  <div class="flex-shrink-0 me-3">
+                                      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="avatar rounded-circle" />
+                                  </div>
+                                  <div class="flex-grow-1">
+                                      <h6 class="mb-0">Inara Britt</h6>
+                                      <p class="mb-0 text-muted">Georgia, USA</p>
+                                  </div>
+                                  <div class="flex-shrink-0 text-end">
+                                      <span>
+                                          $927.00
+                                      </span>
+                                  </div>
+                              </div>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div> -->
+  
+  
+  

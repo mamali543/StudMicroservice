@@ -1,0 +1,11 @@
+/Users/macbookpro/Desktop/studentService-keycloak/src/main/java/com/redacode/redacode/exception/userNotFoundException.java
+/Users/macbookpro/Desktop/studentService-keycloak/src/main/java/com/redacode/redacode/service/StudentService.java
+/Users/macbookpro/Desktop/studentService-keycloak/src/main/java/com/redacode/redacode/repo/StudentRepo.java
+/Users/macbookpro/Desktop/studentService-keycloak/src/main/java/com/redacode/redacode/service/professorService.java
+/Users/macbookpro/Desktop/studentService-keycloak/src/main/java/com/redacode/redacode/model/Student.java
+/Users/macbookpro/Desktop/studentService-keycloak/src/main/java/com/redacode/redacode/StudentController.java
+/Users/macbookpro/Desktop/studentService-keycloak/src/main/java/com/redacode/redacode/exception/BadRequestException.java
+/Users/macbookpro/Desktop/studentService-keycloak/src/main/java/com/redacode/redacode/security/KeycloakSecurityConfig.java
+/Users/macbookpro/Desktop/studentService-keycloak/src/main/java/com/redacode/redacode/security/KeycloakConfigAdapter.java
+/Users/macbookpro/Desktop/studentService-keycloak/src/main/java/com/redacode/redacode/RedacodeApplication.java
+/Users/macbookpro/Desktop/studentService-keycloak/src/main/java/com/redacode/redacode/model/UserProfAuthObject.java

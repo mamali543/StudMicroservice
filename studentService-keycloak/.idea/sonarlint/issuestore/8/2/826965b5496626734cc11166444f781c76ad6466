@@ -1,0 +1,9 @@
+
+n	java:S116"TRename this field "ANSI_BLUE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ñö†ùÿÿÿÿ
+o	java:S116"URename this field "ANSI_RESET" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×Çİ®şÿÿÿÿ
+<
+java:S1170"!Make this final field static too.(Ñö†ùÿÿÿÿ
+<
+java:S1170"!Make this final field static too.(×Çİ®şÿÿÿÿ
+s
+java:S2139="XEither log this exception and handle it, or rethrow it with some contextual information.(ºÔËÔøÿÿÿÿ

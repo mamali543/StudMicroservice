@@ -1,0 +1,11 @@
+com/redacode/redacode/RedacodeApplication.class
+com/redacode/redacode/exception/userNotFoundException.class
+com/redacode/redacode/model/Student.class
+com/redacode/redacode/exception/BadRequestException.class
+com/redacode/redacode/security/KeycloakConfigAdapter.class
+com/redacode/redacode/service/StudentService.class
+com/redacode/redacode/service/professorService.class
+com/redacode/redacode/security/KeycloakSecurityConfig.class
+com/redacode/redacode/model/UserProfAuthObject.class
+com/redacode/redacode/repo/StudentRepo.class
+com/redacode/redacode/StudentController.class
